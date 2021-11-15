@@ -67,7 +67,7 @@ export default function App() {
                     maxHeight: 400
                   }}
                 >
-                  {type === "1text/html"
+                  {type === "text/html"
                     ? beautify(clipboardData.getData(type), { format: "html" })
                     : clipboardData.getData(type)}
                 </code>

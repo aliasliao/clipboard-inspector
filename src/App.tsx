@@ -1,6 +1,6 @@
 import { ClipboardEvent, Fragment, useState } from "react";
 import "./styles.css";
-import beautify from "beautify";
+// import beautify from "beautify";
 
 export function List({ data }) {
   if (data.length === 0) {
@@ -20,15 +20,23 @@ export default function App() {
   const [types, setTypes] = useState([]);
   const [items, setItems] = useState([]);
   const [clipboardData, setClipboardData] = useState<DataTransfer>(null);
-  const handlePaste = ({
-    clipboardData
-  }: ClipboardEvent<HTMLTextAreaElement>) => {
+
+  const handlePaste = ({ clipboardData }: ClipboardEvent<HTMLTextAreaElement>) => {
     const { files, types, items } = clipboardData;
     setFiles([...files]);
     setTypes([...types]);
     setItems([...items].map(({ kind, type }) => ({ kind, type })));
     setClipboardData(clipboardData);
   };
+
+  const handleCopy = (event: ClipboardEvent<HTMLTextAreaElement>) => {
+    const { clipboardData, currentTarget } = event;
+    console.log('>>>value:', currentTarget.value);
+    clipboardData.setData('text/html', currentTarget.value);
+    clipboardData.setData('text/plain', currentTarget.value);
+    event.preventDefault();
+  };
+
   return (
     <div className="App">
       <div style={{ display: "flex" }}>
@@ -36,6 +44,7 @@ export default function App() {
           style={{ width: 801, height: 600 }}
           placeholder="paste here"
           onPaste={handlePaste}
+          onCopy={handleCopy}
         />
         <div style={{ marginLeft: 32 }}>
           <div>clipboardData.files:</div>
@@ -67,9 +76,7 @@ export default function App() {
                     maxHeight: 400
                   }}
                 >
-                  {type === "text/html"
-                    ? beautify(clipboardData.getData(type), { format: "html" })
-                    : clipboardData.getData(type)}
+                  {clipboardData.getData(type)}
                 </code>
               </div>
               {type === "text/html" && (

@@ -71,7 +71,7 @@ export default function App() {
                     padding: 16,
                     border: "2px solid #a5a5a5",
                     borderRadius: 4,
-                    whiteSpace: "pre",
+                    whiteSpace: type === 'text/html' ? "pre-wrap" : "pre",
                     overflow: "auto",
                     maxHeight: 400
                   }}

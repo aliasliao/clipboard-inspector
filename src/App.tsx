@@ -8,8 +8,8 @@ export function List({ data }) {
   }
   return (
     <ol>
-      {data.map((item) => (
-        <li>{JSON.stringify(item)}</li>
+      {data.map((item, index) => (
+        <li key={index}>{JSON.stringify(item)}</li>
       ))}
     </ol>
   );
@@ -23,10 +23,15 @@ export default function App() {
 
   const handlePaste = ({ clipboardData }: ClipboardEvent<HTMLTextAreaElement>) => {
     const { files, types, items } = clipboardData;
+    const itemDict = [...items].map(({ kind, type }) => ({ kind, type }))
     setFiles([...files]);
     setTypes([...types]);
-    setItems([...items].map(({ kind, type }) => ({ kind, type })));
+    setItems(itemDict);
     setClipboardData(clipboardData);
+    console.table({
+      'text/plain': clipboardData.getData('text/plain'),
+      'text/html': clipboardData.getData('text/html'),
+    })
   };
 
   const handleCopy = (event: ClipboardEvent<HTMLTextAreaElement>) => {

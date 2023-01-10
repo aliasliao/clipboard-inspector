@@ -78,7 +78,7 @@ export default function App() {
                     borderRadius: 4,
                     whiteSpace: type === 'text/html' ? "pre-wrap" : "pre",
                     overflow: "auto",
-                    maxHeight: 400
+                    maxHeight: 400,
                   }}
                 >
                   {clipboardData.getData(type)}
@@ -90,7 +90,8 @@ export default function App() {
                     marginTop: 16,
                     padding: 16,
                     border: "2px solid #a5a5a5",
-                    borderRadius: 4
+                    borderRadius: 4,
+                    whiteSpace: "pre",
                   }}
                   dangerouslySetInnerHTML={{
                     __html: clipboardData.getData(type)
